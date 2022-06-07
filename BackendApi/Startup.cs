@@ -34,7 +34,6 @@ namespace BackendApi
             }
             else
             {
-                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
