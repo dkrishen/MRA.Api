@@ -18,26 +18,27 @@ namespace BackendApi.Controllers
             {
                 MeetingRoomId = 1,
                 OrderId = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13b"),
-                UserId = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13a"),
+                UserId = Guid.Parse("9BD399D4-06D0-43F1-822C-D9DB91B422BA"),
                 Time = DateTime.Now
             },
             new Order
             {
                 MeetingRoomId = 2,
                 OrderId = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13c"),
-                UserId = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13a"),
+                UserId = Guid.Parse("9BD399D4-06D0-43F1-822C-D9DB91B422BA"),
                 Time = DateTime.Now
             },
             new Order
             {
                 MeetingRoomId = 1,
                 OrderId = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13d"),
-                UserId = Guid.Parse("7b0a1ec1-80f5-46b5-a108-fb938d3e26c0"),
+                UserId = Guid.Parse("ECD0CB0A-0148-402D-8689-59712CFB44B3"),
                 Time = DateTime.Now
             }
         };
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         [Route("GetAllOrders")]
         public IActionResult GetAllOrders()
         {
