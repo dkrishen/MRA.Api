@@ -14,10 +14,12 @@ namespace BackendApi.Controllers
     public class OrderController : Controller
     {
         IMeetingRoomRepository _meetingRoomRepository;
+        IUserRepository _userRepository;
 
-        public OrderController(IMeetingRoomRepository meetingRoomRepository)
+        public OrderController(IMeetingRoomRepository meetingRoomRepository, IUserRepository userRepository)
         {
             _meetingRoomRepository = meetingRoomRepository;
+            _userRepository = userRepository;
         }
 
         List<Order> orders = new List<Order>()
@@ -46,7 +48,7 @@ namespace BackendApi.Controllers
         };
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         [Route("GetAllOrders")]
         public IActionResult GetAllOrders()
         {
@@ -56,7 +58,7 @@ namespace BackendApi.Controllers
             var rooms = _meetingRoomRepository.GetRoomsByRoomIds(roomIds);
 
             var userIds = resultOrders.Select(o => o.UserId);
-            // var users = ; //TODO
+            var users = _userRepository.GetUsersByIds(userIds);
 
             var result = new List<OrderViewModel>();
             foreach (var order in resultOrders)
@@ -67,8 +69,7 @@ namespace BackendApi.Controllers
                     MeetingRoomId = order.MeetingRoomId,
                     MeetingRoomName = rooms.Where(r => r.Id == order.MeetingRoomId).FirstOrDefault().Name,
                     UserId = order.UserId,
-                    Username = "tmp null",
-                    // Username = users.Where(u => u.id == order.UserId).FirstOrDefault().Username,
+                    Username = users.Where(u => u.Id == order.UserId).SingleOrDefault().Username,
                     StartTime = order.Time,
                     EndTime = DateTime.Now
                 });
@@ -88,6 +89,9 @@ namespace BackendApi.Controllers
             var roomIds = resultOrders.Select(o => o.MeetingRoomId).ToHashSet<Guid>();
             var rooms = _meetingRoomRepository.GetRoomsByRoomIds(roomIds);
 
+            var userIds = resultOrders.Select(o => o.UserId);
+            var users = _userRepository.GetUsersByIds(userIds);
+
             var result = new List<OrderViewModel>();
             foreach(var order in resultOrders)
             {
@@ -97,8 +101,7 @@ namespace BackendApi.Controllers
                     MeetingRoomId = order.MeetingRoomId,
                     MeetingRoomName = rooms.Where(r => r.Id == order.MeetingRoomId).FirstOrDefault().Name,
                     UserId = order.UserId,
-                    Username = "tmp null",
-                    // Username = users.Where(u => u.id == order.UserId).FirstOrDefault().Username,
+                    Username = users.Where(u => u.Id == order.UserId).SingleOrDefault().Username,
                     StartTime = order.Time,
                     EndTime = DateTime.Now
                 });
