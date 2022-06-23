@@ -2,11 +2,9 @@
 
 namespace BackendApi.Models
 {
-    public class User
+    public class UserShortDto
     {
         public Guid Id { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
     }
 }

@@ -7,14 +7,14 @@ namespace BackendApi.Repository
 {
     public class UserRepository : RepositoryBase, IUserRepository
     {
-        public UserRepository() : base("http://localhost:30577/")
+        public UserRepository() : base("https://localhost:44396/")
         {
         }
 
-        public IEnumerable<User> GetUsersByIds(IEnumerable<Guid> ids)
+        public IEnumerable<UserShortDto> GetUsersByIds(IEnumerable<Guid> ids)
         {
             var jsonResponse = GetRequest("api/user/GetUsersByIds?data=", ids);
-            return JsonConvert.DeserializeObject<IEnumerable<User>>(jsonResponse);
+            return JsonConvert.DeserializeObject<IEnumerable<UserShortDto>>(jsonResponse);
         }
     }
 }

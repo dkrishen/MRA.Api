@@ -6,6 +6,6 @@ namespace BackendApi.Repository
 {
     public interface IUserRepository
     {
-        public IEnumerable<User> GetUsersByIds(IEnumerable<Guid> ids);
+        public IEnumerable<UserShortDto> GetUsersByIds(IEnumerable<Guid> ids);
     }
 }

@@ -33,22 +33,29 @@ namespace BackendApi
 
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            services.AddAuthentication(/*config =>
+            {
+                config.DefaultAuthenticateScheme = 
+                JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }*/"Bearer")
+                .AddJwtBearer("Bearer", options =>
                 {
+                    options.Authority = authOptions.Issuer;
+                    options.Audience = authOptions.Audience;
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidIssuer = authOptions.Issuer,
 
-                        ValidateAudience = true,
-                        ValidAudience = authOptions.Audience,
+                        ValidateAudience = false,
+                        //ValidAudience = authOptions.Audience,
 
                         ValidateLifetime = true,
 
-                        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true
+                        //IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
+                        //ValidateIssuerSigningKey = true
                     };
                 });
 
