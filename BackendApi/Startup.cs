@@ -28,7 +28,7 @@ namespace BackendApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MeetingRoomApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
             });
 
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
@@ -71,6 +71,7 @@ namespace BackendApi
 
             services.AddTransient<IMeetingRoomRepository, MeetingRoomRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +81,7 @@ namespace BackendApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MeetingRoomApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend v1"));
             }
             else
             {

@@ -9,7 +9,8 @@ namespace BackendApi.Models
         public string MeetingRoomName { get; set; }
         public Guid UserId { get; set; }
         public string Username { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime Date { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
     }
 }

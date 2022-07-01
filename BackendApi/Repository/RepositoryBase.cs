@@ -55,9 +55,10 @@ namespace BackendApi.Repository
         //    return makeRequest(getRequest);
         //}
 
-        protected string PostRequest(string requestUrl)
+        protected string PostRequest(string requestUrl, object data = null)
         {
-            var postRequest = (HttpWebRequest)WebRequest.Create(apiUrl + requestUrl);
+            string content = data != null ? JsonConvert.SerializeObject(data) : string.Empty;
+            var postRequest = (HttpWebRequest)WebRequest.Create(apiUrl + requestUrl + content);
             postRequest.Method = "POST";
 
             return makeRequest(postRequest);
