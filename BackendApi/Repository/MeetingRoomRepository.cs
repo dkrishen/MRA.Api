@@ -14,19 +14,19 @@ namespace BackendApi.Repository
 
         public IEnumerable<MeetingRoom> GetAllRooms()
         {
-            var jsonResponse = GetRequest("api/rooms/GetAllRooms");
+            var jsonResponse = Request("api/rooms/GetAllRooms", "GET");
             return JsonConvert.DeserializeObject<IEnumerable<MeetingRoom>>(jsonResponse);
         }
 
         public MeetingRoom GetRoomByRoomId(Guid id)
         {
-            var jsonResponse = GetRequest("api/rooms/GetRoomById?data=", id);
+            var jsonResponse = Request("api/rooms/GetRoomById?data=", "GET", id);
             return JsonConvert.DeserializeObject<MeetingRoom>(jsonResponse);
         }
 
         public IEnumerable<MeetingRoom> GetRoomsByRoomIds(IEnumerable<Guid> ids)
         {
-            var jsonResponse = GetRequest("api/rooms/GetRoomsByIds?data=", ids);
+            var jsonResponse = Request("api/rooms/GetRoomsByIds?data=", "GET", ids);
             return JsonConvert.DeserializeObject<IEnumerable<MeetingRoom>>(jsonResponse);
         }
     }

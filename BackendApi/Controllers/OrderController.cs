@@ -127,7 +127,7 @@ namespace BackendApi.Controllers
         {
             var userId = Guid.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            // TODO: make this with using automapper
+            // TODO: make this with using automapper and in logic layer
             var newOrder = new Order()
             {
                 MeetingRoomId = new Guid("1DDA7260-08E8-4B32-A9EE-F7E1CA69BC9C"),
@@ -148,6 +148,40 @@ namespace BackendApi.Controllers
             //    StartTime = DateTime.Parse(order.StartTime),
             //    EndTime = DateTime.Parse(order.EndTime),
             //});
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("DeleteOrder")]
+        public IActionResult DeleteOrder([FromBody] GuidDto data)
+        {
+
+            _orderRepository.DeleteOrder(data.id);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("UpdateOrder")]
+        public IActionResult UpdateOrder([FromBody] OrderEditDto order)
+        {
+
+
+      //  TODO: make this with using automapper and in logic layer
+            var newOrder = new Order()
+            {
+                MeetingRoomId = order.Id,
+                UserId = order.UserId,
+                Date = DateTime.Parse(order.Date),
+                StartTime = TimeSpan.Parse(order.StartTime),
+                EndTime = TimeSpan.Parse(order.EndTime),
+                Id = order.Id
+            };
+
+            _orderRepository.UpdateOrder(newOrder);
 
             return Ok();
         }

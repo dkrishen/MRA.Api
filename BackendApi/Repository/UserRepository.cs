@@ -13,7 +13,7 @@ namespace BackendApi.Repository
 
         public IEnumerable<UserShortDto> GetUsersByIds(IEnumerable<Guid> ids)
         {
-            var jsonResponse = GetRequest("api/user/GetUsersByIds?data=", ids);
+            var jsonResponse = Request("api/user/GetUsersByIds?data=", "GET", ids);
             return JsonConvert.DeserializeObject<IEnumerable<UserShortDto>>(jsonResponse);
         }
     }

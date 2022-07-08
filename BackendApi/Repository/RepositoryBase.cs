@@ -38,11 +38,11 @@ namespace BackendApi.Repository
             return result;
         }
 
-        protected string GetRequest(string requestUrl, object data = null)
+        protected string Request(string requestUrl, string requestMethod, object data = null)
         {
             string content = data != null ? JsonConvert.SerializeObject(data) : string.Empty;
             var getRequest = (HttpWebRequest)WebRequest.Create(apiUrl + requestUrl + content);
-            getRequest.Method = "GET";
+            getRequest.Method = requestMethod;
 
             return makeRequest(getRequest);
         }
@@ -55,14 +55,23 @@ namespace BackendApi.Repository
         //    return makeRequest(getRequest);
         //}
 
-        protected string PostRequest(string requestUrl, object data = null)
-        {
-            string content = data != null ? JsonConvert.SerializeObject(data) : string.Empty;
-            var postRequest = (HttpWebRequest)WebRequest.Create(apiUrl + requestUrl + content);
-            postRequest.Method = "POST";
+        //protected string PostRequest(string requestUrl, object data = null)
+        //{
+        //    string content = data != null ? JsonConvert.SerializeObject(data) : string.Empty;
+        //    var postRequest = (HttpWebRequest)WebRequest.Create(apiUrl + requestUrl + content);
+        //    postRequest.Method = "POST";
 
-            return makeRequest(postRequest);
-        }
+        //    return makeRequest(postRequest);
+        //}
+
+        //protected string DeleteRequest(string requestUrl, object data = null)
+        //{
+        //    string content = data != null ? JsonConvert.SerializeObject(data) : string.Empty;
+        //    var postRequest = (HttpWebRequest)WebRequest.Create(apiUrl + requestUrl + content);
+        //    postRequest.Method = "POST";
+
+        //    return makeRequest(postRequest);
+        //}
 
     }
 }

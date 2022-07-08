@@ -14,19 +14,29 @@ namespace BackendApi.Repository
 
         public void AddOrder(Order order)
         {
-            PostRequest("api/book/AddBook?data=", order);
+            Request("api/book/AddBook?data=", "POST", order);
+        }
+
+        public void DeleteOrder(Guid id)
+        {
+            Request("api/book/DeleteBook?data=", "DELETE", id);
         }
 
         public IEnumerable<Order> GetOrders()
         {
-            var jsonResponse = GetRequest("api/book/GetAllBooks");
+            var jsonResponse = Request("api/book/GetAllBooks", "GET");
             return JsonConvert.DeserializeObject<IEnumerable<Order>>(jsonResponse);
         }
 
         public IEnumerable<Order> GetOrdersByUser(Guid id)
         {
-            var jsonResponse = GetRequest("api/book/GetBooksByUserId?data=", id);
+            var jsonResponse = Request("api/book/GetBooksByUserId?data=", "GET", id);
             return JsonConvert.DeserializeObject<IEnumerable<Order>>(jsonResponse);
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            Request("api/book/UpdateBook?data=", "PUT", order);
         }
     }
 }
