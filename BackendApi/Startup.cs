@@ -1,5 +1,4 @@
 using BackendApi.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,9 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackendApi
 {
@@ -22,7 +18,6 @@ namespace BackendApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -33,12 +28,7 @@ namespace BackendApi
 
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
 
-            services.AddAuthentication(/*config =>
-            {
-                config.DefaultAuthenticateScheme = 
-                JwtBearerDefaults.AuthenticationScheme;
-                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }*/"Bearer")
+            services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = authOptions.Issuer;
@@ -48,14 +38,8 @@ namespace BackendApi
                     {
                         ValidateIssuer = true,
                         ValidIssuer = authOptions.Issuer,
-
                         ValidateAudience = false,
-                        //ValidAudience = authOptions.Audience,
-
                         ValidateLifetime = true,
-
-                        //IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
-                        //ValidateIssuerSigningKey = true
                     };
                 });
 
@@ -74,9 +58,10 @@ namespace BackendApi
             services.AddTransient<IOrderRepository, OrderRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -88,7 +73,6 @@ namespace BackendApi
             }
 
             app.UseRouting();
-            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

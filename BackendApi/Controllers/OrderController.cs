@@ -24,42 +24,14 @@ namespace BackendApi.Controllers
             _orderRepository = orderRepository;
         }
 
-        //List<Order> orders = new List<Order>()
-        //{
-        //    new Order
-        //    {
-        //        MeetingRoomId = Guid.Parse("1DDA7260-08E8-4B32-A9EE-F7E1CA69BC9C"),
-        //        Id = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13b"),
-        //        UserId = Guid.Parse("219d8c42-3ab6-4ca1-80fc-6cdcb9cfffc4"),
-        //        Date = DateTime.Now,
-        //        StartTime = DateTime.Now,
-        //        EndTime = DateTime.Now,
-        //    },
-        //    new Order
-        //    {
-        //        MeetingRoomId = Guid.Parse("2DDA7260-08E8-4B32-A9EE-F7E1CA69BC9C"),
-        //        Id = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13c"),
-        //        UserId = Guid.Parse("219d8c42-3ab6-4ca1-80fc-6cdcb9cfffc4"),
-        //        Date = DateTime.Now,
-        //        StartTime = DateTime.Now,
-        //        EndTime = DateTime.Now,
-        //    },
-        //    new Order
-        //    {
-        //        MeetingRoomId = Guid.Parse("1DDA7260-08E8-4B32-A9EE-F7E1CA69BC9C"),
-        //        Id = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13d"),
-        //        UserId = Guid.Parse("fc8c7d78-fad1-4056-903e-df63b65ee79a"),
-        //        Date = DateTime.Now,
-        //        StartTime = DateTime.Now,
-        //        EndTime = DateTime.Now,
-        //    }
-        //};
-
         [HttpGet]
         [Authorize]
         [Route("GetAllOrders")]
         public IActionResult GetAllOrders()
         {
+            // TEMP: mock for testing docker container
+            return Ok("Hello Docker");
+
             var orders = _orderRepository.GetOrders();
 
             var roomIds = orders.Select(o => o.MeetingRoomId).ToHashSet<Guid>();
@@ -71,6 +43,7 @@ namespace BackendApi.Controllers
             var result = new List<OrderViewModel>();
             foreach (var order in orders)
             {
+                //  TODO: make this with using automapper and in logic layer
                 result.Add(new OrderViewModel
                 {
                     Id = order.Id,
@@ -104,6 +77,7 @@ namespace BackendApi.Controllers
             var result = new List<OrderViewModel>();
             foreach (var order in orders)
             {
+                //  TODO: make this with using automapper and in logic layer
                 result.Add(new OrderViewModel
                 {
                     Id = order.Id,
@@ -127,7 +101,7 @@ namespace BackendApi.Controllers
         {
             var userId = Guid.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            // TODO: make this with using automapper and in logic layer
+            //  TODO: make this with using automapper and in logic layer
             var newOrder = new Order()
             {
                 MeetingRoomId = new Guid("1DDA7260-08E8-4B32-A9EE-F7E1CA69BC9C"),
@@ -140,14 +114,6 @@ namespace BackendApi.Controllers
 
 
             _orderRepository.AddOrder(newOrder);
-            //{
-            //    MeetingRoomId = Guid.Parse("1DDA7260-08E8-4B32-A9EE-F7E1CA69BC9C"),
-            //    Id = Guid.Parse("e2371dc9-a849-4f3c-9004-df8fc921c13d"),
-            //    UserId = Guid.Parse("fc8c7d78-fad1-4056-903e-df63b65ee79a"),
-            //    Date = DateTime.Parse(order.Date),
-            //    StartTime = DateTime.Parse(order.StartTime),
-            //    EndTime = DateTime.Parse(order.EndTime),
-            //});
 
             return Ok();
         }
@@ -170,7 +136,7 @@ namespace BackendApi.Controllers
         {
 
 
-      //  TODO: make this with using automapper and in logic layer
+            //  TODO: make this with using automapper and in logic layer
             var newOrder = new Order()
             {
                 MeetingRoomId = order.Id,
