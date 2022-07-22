@@ -21,7 +21,7 @@ namespace BackendApi.Repository
             {
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 var stream = response.GetResponseStream();
-                if(stream != null)
+                if (stream != null)
                 {
                     result = new StreamReader(stream).ReadToEnd();
                 }

@@ -8,7 +8,7 @@ namespace BackendApi.Repository
     public class MeetingRoomRepository : RepositoryBase , IMeetingRoomRepository
     {
         // TODO: move URL to appsetting
-        public MeetingRoomRepository() : base("http://localhost:32218/")
+        public MeetingRoomRepository() : base("http://host.docker.internal:5300/")
         {
 
         }

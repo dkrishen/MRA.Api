@@ -8,7 +8,7 @@ namespace BackendApi.Repository
     public class OrderRepository : RepositoryBase , IOrderRepository
     {
         // TODO: move URL to appsetting
-        public OrderRepository() : base("https://localhost:44301/")
+        public OrderRepository() : base("http://host.docker.internal:5200/")
         {
 
         }

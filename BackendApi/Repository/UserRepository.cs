@@ -8,7 +8,7 @@ namespace BackendApi.Repository
     public class UserRepository : RepositoryBase, IUserRepository
     {
         // TODO: move URL to appsetting
-        public UserRepository() : base("https://localhost:44396/")
+        public UserRepository() : base("http://host.docker.internal:5000/")
         {
         }
 

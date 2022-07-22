@@ -36,7 +36,7 @@ namespace BackendApi
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
-                        ValidateIssuer = true,
+                        ValidateIssuer = false,
                         ValidIssuer = authOptions.Issuer,
                         ValidateAudience = false,
                         ValidateLifetime = true,

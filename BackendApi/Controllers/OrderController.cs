@@ -29,9 +29,6 @@ namespace BackendApi.Controllers
         [Route("GetAllOrders")]
         public IActionResult GetAllOrders()
         {
-            // TEMP: mock for testing docker container
-            return Ok("Hello Docker");
-
             var orders = _orderRepository.GetOrders();
 
             var roomIds = orders.Select(o => o.MeetingRoomId).ToHashSet<Guid>();
@@ -134,8 +131,6 @@ namespace BackendApi.Controllers
         [Route("UpdateOrder")]
         public IActionResult UpdateOrder([FromBody] OrderEditDto order)
         {
-
-
             //  TODO: make this with using automapper and in logic layer
             var newOrder = new Order()
             {
