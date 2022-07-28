@@ -1,4 +1,5 @@
 ﻿using BackendApi.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,7 @@ namespace BackendApi.Repository
 {
     public class UserRepository : RepositoryBase, IUserRepository
     {
-        // TODO: move URL to appsetting
-        public UserRepository() : base("http://host.docker.internal:5000/")
+        public UserRepository(IConfiguration configuration) : base(configuration.GetSection("Auth").GetValue<string>("Issuer"))
         {
         }
 

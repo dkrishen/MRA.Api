@@ -1,4 +1,5 @@
 ﻿using BackendApi.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,8 @@ namespace BackendApi.Repository
 {
     public class OrderRepository : RepositoryBase , IOrderRepository
     {
-        // TODO: move URL to appsetting
-        public OrderRepository() : base("http://host.docker.internal:5200/")
+        public OrderRepository(IConfiguration configuration) : base(configuration.GetSection("MRA.Orders").GetValue<string>("Url"))
         {
-
         }
 
         public void AddOrder(Order order)

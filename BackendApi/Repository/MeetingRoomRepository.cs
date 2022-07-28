@@ -1,4 +1,5 @@
 ﻿using BackendApi.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,8 @@ namespace BackendApi.Repository
 {
     public class MeetingRoomRepository : RepositoryBase , IMeetingRoomRepository
     {
-        // TODO: move URL to appsetting
-        public MeetingRoomRepository() : base("http://host.docker.internal:5300/")
+        public MeetingRoomRepository(IConfiguration configuration) : base(configuration.GetSection("MRA.Rooms").GetValue<string>("Url"))
         {
-
         }
 
         public IEnumerable<MeetingRoom> GetAllRooms()

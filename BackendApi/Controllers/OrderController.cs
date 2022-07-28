@@ -29,25 +29,25 @@ namespace BackendApi.Controllers
         [Route("GetAllOrders")]
         public IActionResult GetAllOrders()
         {
-            var orders = _orderRepository.GetOrders();
-
+            var orders = _orderRepository.GetOrders().ToList();
             var roomIds = orders.Select(o => o.MeetingRoomId).ToHashSet<Guid>();
             var rooms = _meetingRoomRepository.GetRoomsByRoomIds(roomIds);
 
             var userIds = orders.Select(o => o.UserId).ToHashSet<Guid>();
-            var users = _userRepository.GetUsersByIds(userIds);
+            var users = _userRepository.GetUsersByIds(userIds).ToList();
 
             var result = new List<OrderViewModel>();
             foreach (var order in orders)
             {
                 //  TODO: make this with using automapper and in logic layer
+
                 result.Add(new OrderViewModel
                 {
                     Id = order.Id,
                     MeetingRoomId = order.MeetingRoomId,
-                    MeetingRoomName = rooms.Where(r => r.Id == order.MeetingRoomId).FirstOrDefault().Name,
+                    MeetingRoomName = rooms?.Where(r => r.Id == order.MeetingRoomId)?.FirstOrDefault()?.Name ?? "[DELETED ROOM]",
                     UserId = order.UserId,
-                    Username = users.Where(u => u.Id == order.UserId).SingleOrDefault().Username,
+                    Username = users?.Where(u => u.Id == order.UserId)?.SingleOrDefault()?.Username ?? "[DELETED USER]",
                     Date = order.Date,
                     StartTime = (order.StartTime.Hours < 10 ? '0' + order.StartTime.Hours.ToString() : order.StartTime.Hours.ToString()) + ':' + (order.StartTime.Minutes < 10 ? '0' + order.StartTime.Minutes.ToString() : order.StartTime.Minutes.ToString()),
                     EndTime = (order.EndTime.Hours < 10 ? '0' + order.EndTime.Hours.ToString() : order.EndTime.Hours.ToString()) + ':' + (order.EndTime.Minutes < 10 ? '0' + order.EndTime.Minutes.ToString() : order.EndTime.Minutes.ToString())
@@ -68,8 +68,7 @@ namespace BackendApi.Controllers
             var roomIds = orders.Select(o => o.MeetingRoomId).ToHashSet<Guid>();
             var rooms = _meetingRoomRepository.GetRoomsByRoomIds(roomIds);
 
-            var userIds = orders.Select(o => o.UserId).ToHashSet<Guid>();
-            var users = _userRepository.GetUsersByIds(userIds);
+            var user = _userRepository.GetUsersByIds(new HashSet<Guid>() { userId }).FirstOrDefault();
 
             var result = new List<OrderViewModel>();
             foreach (var order in orders)
@@ -79,9 +78,9 @@ namespace BackendApi.Controllers
                 {
                     Id = order.Id,
                     MeetingRoomId = order.MeetingRoomId,
-                    MeetingRoomName = rooms.Where(r => r.Id == order.MeetingRoomId).FirstOrDefault().Name,
+                    MeetingRoomName = rooms?.Where(r => r.Id == order.MeetingRoomId)?.FirstOrDefault()?.Name ?? "[DELETED ROOM]",
                     UserId = order.UserId,
-                    Username = users.Where(u => u.Id == order.UserId).SingleOrDefault().Username,
+                    Username = user?.Username ?? "[ERROR]",
                     Date = order.Date,
                     StartTime = (order.StartTime.Hours < 10 ? '0' + order.StartTime.Hours.ToString() : order.StartTime.Hours.ToString()) + ':' + (order.StartTime.Minutes < 10 ? '0' + order.StartTime.Minutes.ToString() : order.StartTime.Minutes.ToString()),
                     EndTime = (order.EndTime.Hours < 10 ? '0' + order.EndTime.Hours.ToString() : order.EndTime.Hours.ToString()) + ':' + (order.EndTime.Minutes < 10 ? '0' + order.EndTime.Minutes.ToString() : order.EndTime.Minutes.ToString())
@@ -120,7 +119,6 @@ namespace BackendApi.Controllers
         [Route("DeleteOrder")]
         public IActionResult DeleteOrder([FromBody] GuidDto data)
         {
-
             _orderRepository.DeleteOrder(data.id);
 
             return Ok();
@@ -146,6 +144,5 @@ namespace BackendApi.Controllers
 
             return Ok();
         }
-
     }
 }
